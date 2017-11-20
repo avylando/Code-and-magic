@@ -27,7 +27,7 @@ window.renderStatistics = function (ctx, names, times) {
     var secondPointX = firstPointX + cloudBody;
     currentX += step;
     ctx.bezierCurveTo(firstPointX, firstPointY, secondPointX, secondPointY, endX, endY);
-  };
+  }
 
   ctx.fill();
 
@@ -42,7 +42,7 @@ window.renderStatistics = function (ctx, names, times) {
     secondPointY = firstPointY + cloudBody;
     currentY += step;
     ctx.bezierCurveTo(firstPointX, firstPointY, secondPointX, secondPointY, endX, endY);
-  };
+  }
 
   ctx.fill();
 
@@ -51,13 +51,13 @@ window.renderStatistics = function (ctx, names, times) {
   firstPointY = 280;
   secondPointY = 280;
   currentY = endY;
-  for (var i = 0; i < 4; i++) {
-    var endX = currentX - step;
-    var firstPointX = currentX - cloudIndent;
-    var secondPointX = firstPointX - cloudBody;
+  for (i = 0; i < 4; i++) {
+    endX = currentX - step;
+    firstPointX = currentX - cloudIndent;
+    secondPointX = firstPointX - cloudBody;
     currentX -= step;
     ctx.bezierCurveTo(firstPointX, firstPointY, secondPointX, secondPointY, endX, endY);
-  };
+  }
 
   ctx.fill();
 
@@ -66,13 +66,13 @@ window.renderStatistics = function (ctx, names, times) {
   firstPointX = 100;
   secondPointX = 100;
   currentX = endX;
-  for (var j = 0; j < 3; j++) {
+  for (j = 0; j < 3; j++) {
     endY = currentY - step;
     firstPointY = currentY - cloudIndent;
     secondPointY = firstPointY - cloudBody;
     currentY -= step;
     ctx.bezierCurveTo(firstPointX, firstPointY, secondPointX, secondPointY, endX, endY);
-  };
+  }
 
   ctx.fill();
 
@@ -91,12 +91,10 @@ window.renderStatistics = function (ctx, names, times) {
 
   var getMaxValue = function (anyArray) {
     var maxValue = -1;
-    var maxIndex = -1;
 
-    for (var i = 0 ; i < anyArray.length; i++) {
-      if (anyArray[i] > maxValue) {
-        maxValue = anyArray[i];
-        maxIndex = i;
+    for (var index = 0; index < anyArray.length; index++) {
+      if (anyArray[index] > maxValue) {
+        maxValue = anyArray[index];
       }
     }
     return maxValue;
@@ -121,17 +119,16 @@ window.renderStatistics = function (ctx, names, times) {
   var columnWidth = 40;
   var lineHeight = 20;
 
-  for (var j = 0; j < times.length; j++) {
+  for (j = 0; j < times.length; j++) {
     var playerTime = Math.round(times[j]);
-    var columnHeight = playerTime * histogramHeight / (getMaxValue(times)- 0);
+    var columnHeight = playerTime * histogramHeight / (getMaxValue(times) - 0);
 
     ctx.fillStyle = getColorPlayer(names[j]);
-    ctx.fillRect(initialX + j * columnIndent, initialY, columnWidth, columnHeight * (-1)) ;
+    ctx.fillRect(initialX + j * columnIndent, initialY, columnWidth, columnHeight * (-1));
 
     ctx.fillStyle = '#000000';
-    ctx.fillText(playerTime , initialX + j * columnIndent, initialY - columnHeight - lineHeight / 2);
+    ctx.fillText(playerTime, initialX + j * columnIndent, initialY - columnHeight - lineHeight / 2);
     ctx.fillText(names[j], initialX + j * columnIndent, initialY + lineHeight);
-  };
+  }
 
 };
-
