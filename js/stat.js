@@ -15,63 +15,63 @@ window.renderStatistics = function (ctx, names, times) {
 
   var currentX = 110;
   var currentY = 25;
-  var firstPointY = 10;
-  var secondPointY = 10;
+  var y1 = 10;
+  var y2 = 10;
   var step = 100;
   var cloudIndent = 10;
-  var cloudBody = 80;
+  var cloudBodySize = 80;
   var endY = currentY;
   for (var i = 0; i < 4; i++) {
     var endX = currentX + step;
-    var firstPointX = currentX + cloudIndent;
-    var secondPointX = firstPointX + cloudBody;
+    var x1 = currentX + cloudIndent;
+    var x2 = x1 + cloudBodySize;
     currentX += step;
-    ctx.bezierCurveTo(firstPointX, firstPointY, secondPointX, secondPointY, endX, endY);
+    ctx.bezierCurveTo(x1, y1, x2, y2, endX, endY);
   }
 
   ctx.fill();
 
   step = 80;
-  cloudBody = 60;
-  firstPointX = 520;
-  secondPointX = 520;
+  cloudBodySize = 60;
+  x1 = 520;
+  x2 = 520;
   currentX = endX;
   for (var j = 0; j < 3; j++) {
     endY = currentY + step;
-    firstPointY = currentY + cloudIndent;
-    secondPointY = firstPointY + cloudBody;
+    y1 = currentY + cloudIndent;
+    y2 = y1 + cloudBodySize;
     currentY += step;
-    ctx.bezierCurveTo(firstPointX, firstPointY, secondPointX, secondPointY, endX, endY);
+    ctx.bezierCurveTo(x1, y1, x2, y2, endX, endY);
   }
 
   ctx.fill();
 
   step = 100;
-  cloudBody = 80;
-  firstPointY = 280;
-  secondPointY = 280;
+  cloudBodySize = 80;
+  y1 = 280;
+  y2 = 280;
   currentY = endY;
   for (i = 0; i < 4; i++) {
     endX = currentX - step;
-    firstPointX = currentX - cloudIndent;
-    secondPointX = firstPointX - cloudBody;
+    x1 = currentX - cloudIndent;
+    x2 = x1 - cloudBodySize;
     currentX -= step;
-    ctx.bezierCurveTo(firstPointX, firstPointY, secondPointX, secondPointY, endX, endY);
+    ctx.bezierCurveTo(x1, y1, x2, y2, endX, endY);
   }
 
   ctx.fill();
 
   step = 80;
-  cloudBody = 60;
-  firstPointX = 100;
-  secondPointX = 100;
+  cloudBodySize = 60;
+  x1 = 100;
+  x2 = 100;
   currentX = endX;
   for (j = 0; j < 3; j++) {
     endY = currentY - step;
-    firstPointY = currentY - cloudIndent;
-    secondPointY = firstPointY - cloudBody;
+    y1 = currentY - cloudIndent;
+    y2 = y1 - cloudBodySize;
     currentY -= step;
-    ctx.bezierCurveTo(firstPointX, firstPointY, secondPointX, secondPointY, endX, endY);
+    ctx.bezierCurveTo(x1, y1, x2, y2, endX, endY);
   }
 
   ctx.fill();
@@ -102,8 +102,8 @@ window.renderStatistics = function (ctx, names, times) {
 
   // Определение цвета
 
-  var getColorPlayer = function (player) {
-    if (player === 'Вы') {
+  var getPlayerColor = function (playerName) {
+    if (playerName === 'Вы') {
       return 'rgba(255, 0, 0, 1)';
     } else {
       return 'rgba(0, 0, 255, ' + (Math.random() + 0.1).toFixed(1) + ')';
@@ -118,12 +118,13 @@ window.renderStatistics = function (ctx, names, times) {
   var columnIndent = 90;
   var columnWidth = 40;
   var lineHeight = 20;
+  var maxTime = getMaxValue(times);
 
   for (j = 0; j < times.length; j++) {
     var playerTime = Math.round(times[j]);
-    var columnHeight = playerTime * histogramHeight / (getMaxValue(times) - 0);
+    var columnHeight = playerTime * histogramHeight / (maxTime - 0);
 
-    ctx.fillStyle = getColorPlayer(names[j]);
+    ctx.fillStyle = getPlayerColor(names[j]);
     ctx.fillRect(initialX + j * columnIndent, initialY, columnWidth, columnHeight * (-1));
 
     ctx.fillStyle = '#000000';
