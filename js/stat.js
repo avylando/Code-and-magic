@@ -2,9 +2,10 @@
 
 window.renderStatistics = function (ctx, names, times) {
 
+  // Отрисовка облака
+
   ctx.fillStyle = '#ffffff';
   ctx.beginPath();
-  // ctx.moveTo(110, 25);
 
   ctx.lineTo(110, 25);
 
@@ -27,6 +28,7 @@ window.renderStatistics = function (ctx, names, times) {
     currentX += step;
     ctx.bezierCurveTo(firstPointX, firstPointY, secondPointX, secondPointY, endX, endY);
   };
+
   ctx.fill();
 
   step = 80;
@@ -41,6 +43,7 @@ window.renderStatistics = function (ctx, names, times) {
     currentY += step;
     ctx.bezierCurveTo(firstPointX, firstPointY, secondPointX, secondPointY, endX, endY);
   };
+
   ctx.fill();
 
   step = 100;
@@ -55,6 +58,7 @@ window.renderStatistics = function (ctx, names, times) {
     currentX -= step;
     ctx.bezierCurveTo(firstPointX, firstPointY, secondPointX, secondPointY, endX, endY);
   };
+
   ctx.fill();
 
   step = 80;
@@ -69,6 +73,7 @@ window.renderStatistics = function (ctx, names, times) {
     currentY -= step;
     ctx.bezierCurveTo(firstPointX, firstPointY, secondPointX, secondPointY, endX, endY);
   };
+
   ctx.fill();
 
   ctx.closePath();
@@ -79,22 +84,22 @@ window.renderStatistics = function (ctx, names, times) {
 
   ctx.fillStyle = '#000000';
   ctx.font = '16px PT Mono';
-  ctx.fillText('Ура! Вы победили!', 230, 35);
-  ctx.fillText('Список результатов:', 220, 50);
+  ctx.fillText('Ура! Вы победили!', 230, 40);
+  ctx.fillText('Список результатов:', 220, 60);
 
-    // Вычисление максимального значения
+  // Вычисление максимального значения
 
   var getMaxValue = function (anyArray) {
-    var max = -1;
+    var maxValue = -1;
     var maxIndex = -1;
 
     for (var i = 0 ; i < anyArray.length; i++) {
-      if (anyArray[i] > max) {
-        max = anyArray[i];
+      if (anyArray[i] > maxValue) {
+        maxValue = anyArray[i];
         maxIndex = i;
       }
     }
-    return max;
+    return maxValue;
   };
 
   // Определение цвета
@@ -107,10 +112,9 @@ window.renderStatistics = function (ctx, names, times) {
     }
   };
 
+  // Построение гистограммы
 
   var histogramHeight = 150;
-  var histogramStep = histogramHeight / (getMaxValue(times) - 0);
-
   var initialX = 150;
   var initialY = 245;
   var columnIndent = 90;
@@ -118,13 +122,14 @@ window.renderStatistics = function (ctx, names, times) {
   var lineHeight = 20;
 
   for (var j = 0; j < times.length; j++) {
-    var columnHeight = times[j] * histogramStep;
+    var playerTime = Math.round(times[j]);
+    var columnHeight = playerTime * histogramHeight / (getMaxValue(times)- 0);
 
     ctx.fillStyle = getColorPlayer(names[j]);
-    ctx.fillRect(initialX + j * columnIndent, initialY, columnWidth, (initialY - columnHeight) * (-1)) ;
+    ctx.fillRect(initialX + j * columnIndent, initialY, columnWidth, columnHeight * (-1)) ;
 
     ctx.fillStyle = '#000000';
-    ctx.fillText(Math.floor(times[j]) , initialX + j * columnIndent, initialY - (initialY - columnHeight) - lineHeight / 2);
+    ctx.fillText(playerTime , initialX + j * columnIndent, initialY - columnHeight - lineHeight / 2);
     ctx.fillText(names[j], initialX + j * columnIndent, initialY + lineHeight);
   };
 
