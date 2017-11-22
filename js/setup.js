@@ -12,14 +12,14 @@ var WIZARDS = [];
 
 setupWindow.classList.remove('hidden');
 
-var generateWizard = function(wizard) {
+var generateWizard = function (wizard) {
   var wizardElement = similarWizard.cloneNode(true);
   wizardElement.querySelector('.setup-similar-label').textContent = wizard.name + ' ' + wizard.surname;
   wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
   wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
 
   return wizardElement;
-}
+};
 
 var fragment = document.createDocumentFragment();
 
@@ -34,7 +34,7 @@ for (var i = 0; i < 4; i++) {
   WIZARDS[i] = wizard;
 
   fragment.appendChild(generateWizard(WIZARDS[i]));
-};
+}
 
 similarList.appendChild(fragment);
 setupWindow.querySelector('.setup-similar').classList.remove('hidden');
