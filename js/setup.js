@@ -10,7 +10,11 @@
 
   var setupOpen = document.querySelector('.setup-open');
   var setupOpenClickHandler = function () {
-    setupWindow.classList.remove('hidden');
+    if (setupWindow.classList.contains('hidden')) {
+      setupWindow.style.left = '50%';
+      setupWindow.style.top = '80px';
+      setupWindow.classList.remove('hidden');
+    }
   };
 
   var ENTER_KEYCODE = 13;
@@ -73,5 +77,50 @@
       setupUserName.setCustomValidity('Заполните это поле');
     }
   });
+
+
+  // Drag-n-drop artifacts
+
+  var shop = document.querySelector('.setup-artifacts-shop');
+  var buyItem = null;
+  var bag = document.querySelector('.setup-artifacts');
+
+  shop.addEventListener('dragstart', function (evt) {
+    if (evt.target.tagName.toLowerCase() === 'img') {
+      buyItem = evt.target.cloneNode(true);
+      evt.dataTransfer.setData('text/plain', evt.target.alt);
+      bag.style.outline = '2px dashed red';
+    }
+  });
+
+  bag.addEventListener('dragover', function (evt) {
+    bag.style.outline = '';
+    evt.preventDefault();
+    return false;
+  });
+
+  bag.addEventListener('drop', function (evt) {
+    evt.target.style.backgroundColor = '';
+    bag.style.outline = '';
+    if (evt.target.hasChildNodes() || evt.target.src === buyItem.src) {
+      evt.target.style.backgroundColor = 'red';
+    } else {
+      evt.target.appendChild(buyItem);
+    }
+    evt.preventDefault();
+  });
+
+  bag.addEventListener('dragenter', function (evt) {
+    evt.target.style.backgroundColor = 'yellow';
+    if (evt.target.hasChildNodes() || evt.target.src === buyItem.src) {
+      evt.target.style.backgroundColor = 'red';
+    }
+  });
+
+  bag.addEventListener('dragleave', function (evt) {
+    evt.target.style.backgroundColor = '';
+    evt.preventDefault();
+  });
+
 
 })();
