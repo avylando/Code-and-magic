@@ -2,39 +2,26 @@
 
 (function () {
 
-  // Useful values
+  // Variables
 
   var fireballColors = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 
   // Customize wizard
 
-  var setCustomFill = function (element, array) {
-    element.style.fill = window.lib.getValueInOrder(array);
+  var setCustomFill = function (element, color) {
+    element.style.fill = color;
   };
 
-  var setCustomBg = function (element, array) {
-    element.style.backgroundColor = window.lib.getValueInOrder(array);
+  var setCustomBg = function (element, color) {
+    element.style.backgroundColor = color;
   };
 
   var wizardCoat = document.querySelector('.setup-wizard .wizard-coat');
-  var setCoatColor = function () {
-    setCustomFill(wizardCoat, window.data.coatColors);
-  };
-
-  wizardCoat.addEventListener('click', setCoatColor);
-
-
   var wizardEyes = document.querySelector('.setup-wizard .wizard-eyes');
-  var setEyesColor = function () {
-    setCustomFill(wizardEyes, window.data.eyesColors);
-  };
-
-  wizardEyes.addEventListener('click', setEyesColor);
-
   var fireball = document.querySelector('.setup-fireball-wrap');
-  var setFireballColor = function () {
-    setCustomBg(fireball, fireballColors);
-  };
 
-  fireball.addEventListener('click', setFireballColor);
+  window.colorizeElement(wizardCoat, window.data.coatColors, setCustomFill);
+  window.colorizeElement(wizardEyes, window.data.eyesColors, setCustomFill);
+  window.colorizeElement(fireball, fireballColors, setCustomBg);
+
 })();
