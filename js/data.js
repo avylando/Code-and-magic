@@ -13,6 +13,19 @@
   var eyesColors = ['black', 'red', 'blue', 'yellow', 'green'];
   var wizards = [];
 
+  // Load data from server
+
+  var loadUsersWizards = function (data) {
+    var usersWizards = data;
+    console.log(usersWizards);
+  };
+
+  var errorLoadingWizards = function (message) {
+    console.log(message);
+  };
+
+  window.backend.load(loadUsersWizards, errorLoadingWizards);
+
   // Generate wizard from template
 
   var generateWizard = function (wizard) {
