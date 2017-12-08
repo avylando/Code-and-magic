@@ -18,6 +18,16 @@
       }
 
       return value;
+    },
+
+    getRandomItemsFromArray: function (array, number) {
+      var output = [];
+
+      for (var i = 0; i < number; i++) {
+        var item = array[Math.floor(Math.random() * array.length)];
+        output[i] = item;
+      }
+      return output;
     }
   };
 })();

@@ -5,6 +5,7 @@
   // Useful values
 
   var setupWindow = document.querySelector('.setup');
+  var setupSimilar = setupWindow.querySelector('.setup-similar');
 
   // Setup open/close events
 
@@ -14,6 +15,7 @@
       setupWindow.style.left = '50%';
       setupWindow.style.top = '80px';
       setupWindow.classList.remove('hidden');
+      setupSimilar.classList.remove('hidden');
     }
   };
 
@@ -49,10 +51,6 @@
   setupClose.addEventListener('keydown', setupCloseEnterHandler);
   window.addEventListener('keydown', setupCloseEscHandler);
 
-  var setupSave = setupWindow.querySelector('.setup-submit');
-
-  setupSave.addEventListener('click', setupCloseClickHandler);
-  setupSave.addEventListener('keydown', setupCloseEnterHandler);
 
   // Focus on username condition
 
@@ -119,6 +117,27 @@
 
   bag.addEventListener('dragleave', function (evt) {
     evt.target.style.backgroundColor = '';
+    evt.preventDefault();
+  });
+
+  // Form submit
+
+  var form = document.querySelector('.setup-wizard-form');
+
+  var saveForm = function (message) {
+    console.log(message);
+  };
+
+  var errorSavingForm = function (message) {
+    console.log(message);
+  };
+
+  form.addEventListener('submit', function (evt) {
+    var formData = new FormData();
+    var string = [...formData.entries()].map(e => e[0] + "=" + e[1]);
+    console.log(string);
+    window.backend.save(formData, saveForm, errorSavingForm);
+    form.classList.add('hidden');
     evt.preventDefault();
   });
 
