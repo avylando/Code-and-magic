@@ -129,13 +129,25 @@
   };
 
   var errorSavingForm = function (message) {
-    console.log(message);
+    var errorBlock = document.createElement('div');
+    errorBlock.style.position = 'absolute';
+    errorBlock.style.zIndex = '100';
+    errorBlock.style.left = '20px';
+    errorBlock.style.top = '20px';
+    errorBlock.style.width = '200px';
+    errorBlock.style.backgroundColor = 'red';
+    errorBlock.style.color = '#ffffff';
+    errorBlock.style.textTransform = 'uppercase';
+    errorBlock.style.textAlign = 'center';
+    errorBlock.textContent = message;
+
+    document.body.insertAdjacentElement('afterbegin', errorBlock);
   };
 
   form.addEventListener('submit', function (evt) {
     var formData = new FormData();
-    var string = [...formData.entries()].map(e => e[0] + "=" + e[1]);
-    console.log(string);
+    formData.append('key1', 'value1');
+    formData.append('key2', 'value2');
     window.backend.save(formData, saveForm, errorSavingForm);
     form.classList.add('hidden');
     evt.preventDefault();

@@ -28,7 +28,18 @@
   };
 
   window.errorLoadingWizards = function (message) {
-    console.log(message);
+    var errorBlock = document.createElement('div');
+    errorBlock.style.position = 'absolute';
+    errorBlock.style.left = '20px';
+    errorBlock.style.top = '20px';
+    errorBlock.style.width = '200px';
+    errorBlock.style.backgroundColor = 'red';
+    errorBlock.style.color = '#ffffff';
+    errorBlock.style.textTransform = 'uppercase';
+    errorBlock.style.textAlign = 'center';
+    errorBlock.textContent = message;
+
+    document.body.insertAdjacentElement('afterbegin', errorBlock);
   };
 
   window.backend.load(window.loadUsersWizards, window.errorLoadingWizards);

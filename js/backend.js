@@ -12,6 +12,10 @@
         onError('Произошла ошибка!');
       });
 
+      loader.addEventListener('timeout', function () {
+        onError('Истек таймаут ожидания ответа!');
+      });
+
       document.body.appendChild(loader);
     },
 
