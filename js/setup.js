@@ -124,8 +124,8 @@
 
   var form = document.querySelector('.setup-wizard-form');
 
-  var saveForm = function (message) {
-    console.log(message);
+  var saveForm = function () {
+    form.classList.add('hidden');
   };
 
   var errorSavingForm = function (message) {
@@ -145,11 +145,8 @@
   };
 
   form.addEventListener('submit', function (evt) {
-    var formData = new FormData();
-    formData.append('key1', 'value1');
-    formData.append('key2', 'value2');
+    var formData = new FormData(form);
     window.backend.save(formData, saveForm, errorSavingForm);
-    form.classList.add('hidden');
     evt.preventDefault();
   });
 

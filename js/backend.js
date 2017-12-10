@@ -27,7 +27,7 @@
       xhr.addEventListener('load', function () {
         switch (xhr.status) {
           case 200:
-            onLoad('Волшебник успешно сохранен!');
+            onLoad();
             break;
 
           default:
