@@ -5,6 +5,7 @@
   // Useful values
 
   var setupWindow = document.querySelector('.setup');
+  var setupSimilar = setupWindow.querySelector('.setup-similar');
 
   // Setup open/close events
 
@@ -14,6 +15,7 @@
       setupWindow.style.left = '50%';
       setupWindow.style.top = '80px';
       setupWindow.classList.remove('hidden');
+      setupSimilar.classList.remove('hidden');
     }
   };
 
@@ -49,10 +51,6 @@
   setupClose.addEventListener('keydown', setupCloseEnterHandler);
   window.addEventListener('keydown', setupCloseEscHandler);
 
-  var setupSave = setupWindow.querySelector('.setup-submit');
-
-  setupSave.addEventListener('click', setupCloseClickHandler);
-  setupSave.addEventListener('keydown', setupCloseEnterHandler);
 
   // Focus on username condition
 
@@ -119,6 +117,36 @@
 
   bag.addEventListener('dragleave', function (evt) {
     evt.target.style.backgroundColor = '';
+    evt.preventDefault();
+  });
+
+  // Form submit
+
+  var form = document.querySelector('.setup-wizard-form');
+
+  var saveForm = function () {
+    form.classList.add('hidden');
+  };
+
+  var errorSavingForm = function (message) {
+    var errorBlock = document.createElement('div');
+    errorBlock.style.position = 'absolute';
+    errorBlock.style.zIndex = '100';
+    errorBlock.style.left = '20px';
+    errorBlock.style.top = '20px';
+    errorBlock.style.width = '200px';
+    errorBlock.style.backgroundColor = 'red';
+    errorBlock.style.color = '#ffffff';
+    errorBlock.style.textTransform = 'uppercase';
+    errorBlock.style.textAlign = 'center';
+    errorBlock.textContent = message;
+
+    document.body.insertAdjacentElement('afterbegin', errorBlock);
+  };
+
+  form.addEventListener('submit', function (evt) {
+    var formData = new FormData(form);
+    window.backend.save(formData, saveForm, errorSavingForm);
     evt.preventDefault();
   });
 
