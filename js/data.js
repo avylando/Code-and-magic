@@ -82,9 +82,9 @@
     } else {
       return 0;
     }
-  }
+  };
 
-  wizard.addEventListener('click', function () {
+  var updateWizards = function () {
     clearWizardsList();
 
     var rankedWizards = usersWizards.sort(function (left, right) {
@@ -96,8 +96,20 @@
     });
 
     rankedWizards = rankedWizards.slice(0, 4);
-    console.log(rankedWizards);
     rankedWizards.forEach(renderWizard);
+  };
+
+  var lastTimer;
+  var debounce = function (func, interval) {
+    if (lastTimer) {
+      window.clearTimeout(lastTimer);
+    }
+
+    lastTimer = window.setTimeout(func, interval);
+  };
+
+  wizard.addEventListener('click', function () {
+    debounce(updateWizards, 500);
   });
 
 })();
