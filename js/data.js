@@ -23,7 +23,6 @@
   var usersWizards = [];
   var maxWizards = 4;
   var loadUsersWizards = function (data) {
-    console.log(data);
     usersWizards = data;
     for (var i = 0; i < maxWizards; i++) {
       renderWizard(usersWizards[i]);
