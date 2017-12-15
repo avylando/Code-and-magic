@@ -20,14 +20,14 @@
     similarList.appendChild(wizardElement);
   };
 
-  window.loadUsersWizards = function (data) {
+  var loadUsersWizards = function (data) {
     var usersWizards = window.lib.getRandomItemsFromArray(data, 4);
     for (var i = 0; i < usersWizards.length; i++) {
       renderWizard(usersWizards[i]);
     }
   };
 
-  window.errorLoadingWizards = function (message) {
+  var errorLoadingWizards = function (message) {
     var errorBlock = document.createElement('div');
     errorBlock.style.position = 'absolute';
     errorBlock.style.left = '20px';
@@ -42,7 +42,7 @@
     document.body.insertAdjacentElement('afterbegin', errorBlock);
   };
 
-  window.backend.load(window.loadUsersWizards, window.errorLoadingWizards);
+  window.backend.load(loadUsersWizards, errorLoadingWizards);
 
   // Generate wizard from template
 
