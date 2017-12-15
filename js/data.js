@@ -20,9 +20,12 @@
     similarList.appendChild(wizardElement);
   };
 
+  var usersWizards = [];
+  var maxWizards = 4;
   var loadUsersWizards = function (data) {
-    var usersWizards = window.lib.getRandomItemsFromArray(data, 4);
-    for (var i = 0; i < usersWizards.length; i++) {
+    console.log(data);
+    usersWizards = data;
+    for (var i = 0; i < maxWizards; i++) {
       renderWizard(usersWizards[i]);
     }
   };
@@ -44,37 +47,57 @@
 
   window.backend.load(loadUsersWizards, errorLoadingWizards);
 
-  // Generate wizard from template
+  // Set filter
 
-  // var generateWizard = function (wizard) {
-  //   var wizardElement = similarWizard.cloneNode(true);
-  //   wizardElement.querySelector('.setup-similar-label').textContent = wizard.name + ' ' + wizard.surname;
-  //   wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
-  //   wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
+  var wizard = document.querySelector('.wizard');
 
-  //   return wizardElement;
-  // };
+  var clearWizardsList = function () {
+    var similarWizards = similarList.querySelectorAll('.setup-similar-item');
+    similarWizards.forEach(function (wiz) {
+      similarList.removeChild(wiz);
+    });
+  };
 
-  // var fragment = document.createDocumentFragment();
+  var getRank = function (sameWizard) {
+    sameWizard.rank = 0;
+    var wizardEyes = wizard.querySelector('.wizard-eyes');
+    var wizardCoat = wizard.querySelector('.wizard-coat');
 
-  // // Create wizards array
+    if (sameWizard.colorCoat === wizardCoat.style.fill) {
+      sameWizard.rank += 2;
+    }
 
-  // for (var i = 0; i < 4; i++) {
-  //   var wizard = {
-  //     name: wizardNames[window.lib.getRandomValue(wizardNames)],
-  //     surname: wizardSurnames[window.lib.getRandomValue(wizardSurnames)],
-  //     coatColor: coatColors[window.lib.getRandomValue(coatColors)],
-  //     eyesColor: eyesColors[window.lib.getRandomValue(eyesColors)]
-  //   };
+    if (sameWizard.colorEyes === wizardEyes.style.fill) {
+      sameWizard.rank += 1;
+    }
 
-  //   wizards[i] = wizard;
+    return sameWizard.rank;
+  };
 
-  //   fragment.appendChild(generateWizard(wizards[i]));
-  // }
+  var namesComparator = function (left, right) {
+    if (left > right) {
+      return 1;
+    } else if (left < right) {
+      return -1;
+    } else {
+      return 0;
+    }
+  }
 
-  // Add wizards in setup window
+  wizard.addEventListener('click', function () {
+    clearWizardsList();
 
-  // similarList.appendChild(fragment);
+    var rankedWizards = usersWizards.sort(function (left, right) {
+      var rankDiff = getRank(right) - getRank(left);
+      if (rankDiff === 0) {
+        rankDiff = namesComparator(left.name, right.name);
+      }
+      return rankDiff;
+    });
 
+    rankedWizards = rankedWizards.slice(0, 4);
+    console.log(rankedWizards);
+    rankedWizards.forEach(renderWizard);
+  });
 
 })();
