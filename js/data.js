@@ -98,17 +98,39 @@
     rankedWizards.forEach(renderWizard);
   };
 
-  var lastTimer;
   var debounce = function (func, interval) {
-    if (lastTimer) {
-      window.clearTimeout(lastTimer);
-    }
+    var lastTimer = null;
 
-    lastTimer = window.setTimeout(func, interval);
+    return function () {
+
+      if (lastTimer) {
+        window.clearTimeout(lastTimer);
+      }
+
+      lastTimer = window.setTimeout(func, interval);
+    };
   };
 
-  wizard.addEventListener('click', function () {
-    debounce(updateWizards, 500);
-  });
+  // var debounce = function (func, wait) {
+  //   var lastTimeout;
+
+  //   return function () {
+  //     var args = arguments;
+  //     var onComplete = function () {
+  //       lastTimeout = null;
+  //       func.apply(this, args);
+  //     };
+
+  //     if (lastTimeout) {
+  //       window.clearTimeout(lastTimeout);
+  //     }
+
+  //     lastTimeout = window.setTimeout(onComplete, wait);
+  //   };
+  // };
+
+  var wizardClickHandler = debounce(updateWizards, 500);
+
+  wizard.addEventListener('click', wizardClickHandler);
 
 })();
