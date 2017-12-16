@@ -98,36 +98,36 @@
     rankedWizards.forEach(renderWizard);
   };
 
-  var debounce = function (func, interval) {
-    var lastTimer = null;
-
-    return function () {
-
-      if (lastTimer) {
-        window.clearTimeout(lastTimer);
-      }
-
-      lastTimer = window.setTimeout(func, interval);
-    };
-  };
-
-  // var debounce = function (func, wait) {
-  //   var lastTimeout;
+  // var debounce = function (func, interval) {
+  //   var lastTimer = null;
 
   //   return function () {
-  //     var args = arguments;
-  //     var onComplete = function () {
-  //       lastTimeout = null;
-  //       func.apply(this, args);
-  //     };
 
-  //     if (lastTimeout) {
-  //       window.clearTimeout(lastTimeout);
+  //     if (lastTimer) {
+  //       window.clearTimeout(lastTimer);
   //     }
 
-  //     lastTimeout = window.setTimeout(onComplete, wait);
+  //     lastTimer = window.setTimeout(func, interval);
   //   };
   // };
+
+  var debounce = function (func, wait) {
+    var lastTimeout;
+
+    return function () {
+      var args = arguments;
+      var onComplete = function () {
+        lastTimeout = null;
+        func.apply(window, args);
+      };
+
+      if (lastTimeout) {
+        clearTimeout(lastTimeout);
+      }
+
+      lastTimeout = setTimeout(onComplete, wait);
+    };
+  };
 
   var wizardClickHandler = debounce(updateWizards, 500);
 
