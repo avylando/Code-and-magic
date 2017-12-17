@@ -2,21 +2,47 @@
 
 (function () {
   window.backend = {
-    load: function (onError) {
+    load: function (onLoad, onError) {
       var URL = 'https://1510.dump.academy/code-and-magick/data';
-      var CALLBACK_NAME = 'loadUsersWizards';
-      var loader = document.createElement('script');
-      loader.src = URL + '?callback=' + CALLBACK_NAME;
+      //   var CALLBACK_NAME = 'loadUsersWizards';
+      //   var loader = document.createElement('script');
+      //   loader.src = URL + '?callback=' + CALLBACK_NAME;
 
-      loader.addEventListener('error', function () {
+
+      //   loader.addEventListener('error', function () {
+      //     onError('Произошла ошибка!');
+      //   });
+
+      //   loader.addEventListener('timeout', function () {
+      //     onError('Истек таймаут ожидания ответа!');
+      //   });
+
+      //   document.body.appendChild(loader);
+      // },
+      var xhr = new XMLHttpRequest();
+      xhr.responseType = 'json';
+
+      xhr.addEventListener('load', function () {
+        switch (xhr.status) {
+          case 200:
+            onLoad(xhr.response);
+            break;
+
+          default: onError('Произошла ошибка: ' + xhr.status + ' ' + xhr.responseText);
+        }
+      });
+
+      xhr.addEventListener('error', function () {
         onError('Произошла ошибка!');
       });
 
-      loader.addEventListener('timeout', function () {
+      xhr.addEventListener('timeout', function () {
         onError('Истек таймаут ожидания ответа!');
       });
 
-      document.body.appendChild(loader);
+      xhr.timeout = 10000;
+      xhr.open('GET', URL);
+      xhr.send();
     },
 
     save: function (data, onLoad, onError) {
